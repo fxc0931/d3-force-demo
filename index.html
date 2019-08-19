@@ -12,16 +12,18 @@
 
 
 </head>
-<body style="">
+<body style="text-align: center">
 
-<div class="row">
-    <div class="col-xs-12 col-md-12"><svg width="800" height="600"></svg></div>
-    <br>
-    <div class="col-xs-12 col-md-12"><div class="text-center ">
+
+    <div style="margin: 0 auto;">
+
+        <svg width="1800" height="600"></svg>
+    </div>
+
+    <div style="margin: 0 auto">
         <b style="margin-right: 15px">2011</b> <input id="ex1" data-slider-id='ex1Slider' type="text" class="span2" value="2011" data-slider-min="2011"
                                                       data-slider-max="2017" data-slider-step="1" data-slider-value="[2011,2017]"/>
         <b style="margin-left: 10px">2017</b>
-    </div>
     </div>
 </div>
 
@@ -47,89 +49,68 @@
     })
 
     // 准备数据
+    let nodesSource = [
+        {"id": "Nike"},
+        {"id": "USA"},
+        {"id": "Apple"},
+        {"id": "Samsung"},
+        {"id": "Adidas"},
+        {"id": "Adidas China"},
+        {"id": "McDonald"},
+        {"id": "KFC"},
+        {"id": "KFC China"},
+        {"id": "Jack Ma"},
+        {"id": "Alibaba"},
+        {"id": "Tencent"},
+        {"id": "JD.com"},
+        {"id": "Toyota"},
+        {"id": "Geely"},
+        {"id": "Tesla"}
+
+    ]
+
+    let edgesSource = [
+        {"source": "Nike", "target": "USA", "relation": 'acquired', 'year': '2011'},
+        {"source": "Apple", "target": "Samsung", "relation": 'sued','year': '2012'},
+        {"source": "Adidas", "target": "Nike", "relation": 'sued','year': '2012'},
+        {"source": "Adidas", "target": "Adidas China", "relation": 'decreased stake of','year': '2014'},
+        {"source": "McDonald", "target": "USA", "relation": 'increased stake of','year': '2014'},
+        {"source": "KFC", "target": "KFC China", "relation": 'decreased stake of','year': '2015'},
+        {"source": "Jack Ma", "target": "Alibaba", "relation": 'Is CEO of','year': '2015'},
+        {"source": "Tencent", "target": "JD.com", "relation": 'increased stake of','year': '2016'},
+        {"source": "Toyota", "target": "Tesla", "relation": 'cooperated with','year': '2016'},
+        {"source": "Geely", "target": "Tesla", "relation": 'acquired','year': '2017'},
+    ]
     let nodes = [
-        {name:'Nike'},
-        {name:'USA'},
-        {name:'Apple'},
-        {name:'Samsung'},
-        {name:'Adidas'},
-        {name:'Adidas China'},
-        {name:'McDonald'},
-        {name:'KFC'},
-        {name:'KFC China'},
-        {name:'Jack Ma'},
-        {name:'Alibaba'},
-        {name:'Tencent'},
-        {name:'JD.com'},
-        {name:'Toyota'},
-        {name:'Tesla'},
-        {name:'Geely'}
+        {"id": "Nike"},
+        {"id": "USA"},
+        {"id": "Apple"},
+        {"id": "Samsung"},
+        {"id": "Adidas"},
+        {"id": "Adidas China"},
+        {"id": "McDonald"},
+        {"id": "KFC"},
+        {"id": "KFC China"},
+        {"id": "Jack Ma"},
+        {"id": "Alibaba"},
+        {"id": "Tencent"},
+        {"id": "JD.com"},
+        {"id": "Toyota"},
+        {"id": "Geely"},
+        {"id": "Tesla"},
     ]
 
     let edges = [
-        {source:0,target:1,relation:'acquired'},
-        {source:2,target:3,relation:'sued'},
-        {source:4,target:0,relation:'sued'},
-        {source:4,target:5,relation:'decreased stake of'},
-        {source:6,target:1,relation:'increased stake of'},
-        {source:7,target:8,relation:'decreased stake of'},
-        {source:9,target:10,relation:'Is CEO of'},
-        {source:11,target:12,relation:'increased stake of'},
-        {source:13,target:14,relation:'cooperated with'},
-        {source:15,target:14,relation:'acquired'}
-    ]
-    let data = [
-        { year: 2011,
-          entityA: 'Nike',
-            relation: 'acquired',
-          entityB: 'USA'
-        },
-        { year: 2012,
-            entityA: 'Apple',
-            relation: 'sued',
-            entityB: 'Samsung'
-        },
-        { year: 2012,
-            entityA: 'Adidas',
-             relation: 'sued',
-            entityB: 'Nike'
-        },
-        { year: 2014,
-            entityA: 'Adidas',
-             relation: 'decreased stake of',
-            entityB: 'Adidas China'
-        },
-        { year: 2014,
-            entityA: 'McDonald',
-             relation: 'increased stake of',
-            entityB: 'USA'
-        },
-        { year: 2015,
-            entityA: 'KFC',
-             relation: 'decreased stake of',
-            entityB: 'KFC China'
-        },
-        { year: 2015,
-            entityA: 'Jack Ma',
-             relation: 'Is CEO of',
-            entityB: 'Alibaba'
-        },
-        { year: 2016,
-            entityA: 'Tencent',
-             relation: 'increased stake of',
-            entityB: 'JD.com'
-        },
-        { year: 2016,
-            entityA: 'Toyota',
-             relation: 'cooperated with',
-            entityB: 'Tesla'
-        },
-        { year: 2017,
-            entityA: 'Geely',
-             relation: 'acquired',
-            entityB: 'Tesla'
-        },
-
+        {"source": "Nike", "target": "USA", "relation": 'acquired', 'year': '2011'},
+        {"source": "Apple", "target": "Samsung", "relation": 'sued','year': '2012'},
+        {"source": "Adidas", "target": "Nike", "relation": 'sued','year': '2012'},
+        {"source": "Adidas", "target": "Adidas China", "relation": 'decreased stake of','year': '2014'},
+        {"source": "McDonald", "target": "USA", "relation": 'increased stake of','year': '2014'},
+        {"source": "Toyota", "target": "Tesla", "relation": 'cooperated with','year': '2016'},
+        {"source": "KFC", "target": "KFC China", "relation": 'decreased stake of','year': '2015'},
+        {"source": "Jack Ma", "target": "Alibaba", "relation": 'Is CEO of','year': '2015'},
+        {"source": "Tencent", "target": "JD.com", "relation": 'increased stake of','year': '2016'},
+        {"source": "Geely", "target": "Tesla", "relation": 'acquired','year': '2017'},
     ]
 
     let margin = {top: 60,  bottom: 60, left: 60, right: 60}
@@ -146,30 +127,40 @@
              return value
          }
     }).on('slideStop', function (e) {
-
+         let itemSource = {}
+         let itemTarget = []
+         let arr = []
          nodes = []
          edges = []
-         for (let i = 0; i < data.length; i++) {
-             if (e.value[0] <= data[i].year && e.value[1] >= data[i].year ) {
-                 let itemNode1 = {
-                     name: data[i].entityA,
-                     relation: data[i]. relation
+         for (let i = 0; i < edgesSource.length; i++) {
+             if (e.value[0] <= edgesSource[i].year && e.value[1] >= edgesSource[i].year ) {
+                 if (typeof(edgesSource[i].source) === 'string') {
+                     itemSource = {
+                         id: edgesSource[i].source
+                     }
+                     itemTarget = {
+                         id: edgesSource[i].target
+                     }
+                 } else {
+                     itemSource = edgesSource[i].source
+                     itemTarget = edgesSource[i].target
+
                  }
-                 let itemNode2 = {
-                     name: data[i].entityB
+                 arr.push(itemSource)
+                 arr.push(itemTarget)
+                 edges.push(edgesSource[i])
+
+               }
+             }
+         for (let i = 0; i < arr.length; i++) {
+             for (let j = i+1; j < arr.length; j++) {
+                 if(arr[i].id === arr[j].id){
+                     ++i
                  }
-                 nodes.push(itemNode1)
-                 nodes.push(itemNode2)
              }
+             nodes.push(arr[i]);
          }
-         for (let i = 0; i < nodes.length; i = i + 2) {
-             let itemEdge = {
-                 source: i,
-                 target: i + 1,
-                 relation: nodes[i].relation
-             }
-             edges.push(itemEdge)
-         }
+
          svg.selectAll("svg > *").remove() // 移除svg内部节点
          drawGraph()
      })
@@ -192,7 +183,7 @@
 
         // 新建一个力导向图
         let forceSimulation = d3.forceSimulation()
-            .force ('link', d3.forceLink())
+            .force ('link', d3.forceLink().id(function(d) { return d.id; }))
             .force('charge', d3.forceManyBody())
             .force('center', d3.forceCenter())
 
@@ -261,7 +252,7 @@
         gs.append('circle')
             .attr('r',10)
             .attr('fill',function(d,i){
-                return colorScale(d.name)
+                return colorScale(d.id)
             })
 
         //文字
@@ -270,7 +261,7 @@
             .attr('y',-20)
             .attr('dy',10)
             .text(function(d){
-                return d.name
+                return d.id
             })
 
 
