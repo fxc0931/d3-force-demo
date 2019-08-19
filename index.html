@@ -12,15 +12,26 @@
 
 
 </head>
-<body style="text-align: center">
- <svg width="1280" height="600"></svg>
+<body style="">
 
- <br>
-<div style="margin: 0 auto">
-    <b style="margin-right: 15px">2011</b> <input id="ex1" data-slider-id='ex1Slider' type="text" class="span2" value="2011" data-slider-min="2011"
-                                                  data-slider-max="2017" data-slider-step="1" data-slider-value="[2011,2017]"/>
-    <b style="margin-left: 10px">2017</b>
+<div class="row">
+    <div class="col-xs-12 col-md-12"><svg width="800" height="600"></svg></div>
+    <br>
+    <div class="col-xs-12 col-md-12"><div class="text-center ">
+        <b style="margin-right: 15px">2011</b> <input id="ex1" data-slider-id='ex1Slider' type="text" class="span2" value="2011" data-slider-min="2011"
+                                                      data-slider-max="2017" data-slider-step="1" data-slider-value="[2011,2017]"/>
+        <b style="margin-left: 10px">2017</b>
+    </div>
+    </div>
 </div>
+
+
+
+
+
+
+
+
 
 
  <script src="https://d3js.org/d3.v5.js"></script>
@@ -188,7 +199,7 @@
 
         // 设置图形的属性
         forceSimulation.force('center')
-            .x(width/2.3)
+            .x(width/4)
             .y(height/2)
         forceSimulation.force('charge')
             .theta(30)
