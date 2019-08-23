@@ -47,9 +47,14 @@
     let nodes = []
     let edges = []
     let svg
+    let colorScale
     let p1 = new Promise(initData)
     p1.then(function () {
         svg = d3.select('svg')
+        // 设置color的颜色比例尺，显示不同的颜色
+        colorScale = d3.scaleOrdinal()
+            .domain(d3.range(nodes.length))
+            .range(d3.schemeCategory10)
         drawGraph()
     })
 
@@ -94,11 +99,6 @@
         let g = svg.append('g')
             .attr('transform', 'translate('+ margin.top + ',' + margin.left +')')
 
-        // 设置color的颜色比例尺，显示不同的颜色
-        let colorScale = d3.scaleOrdinal()
-            .domain(["Nike","USA","Apple", "Samsung", "Adidas", "Adidas China", "McDonald", "KFC", "KFC China",
-                "Jack Ma", "Alibaba", "Tencent", "JD.com", "Toyota", "Geely","Tesla"])
-            .range(d3.schemeCategory10)
 
         // 新建一个力导向图
         let forceSimulation = d3.forceSimulation()
@@ -260,7 +260,7 @@
             {"source": "Geely", "target": "Tesla", "relation": 'acquired','year': '2017'},
         ]
 
-        resolve('200 OK');
+        resolve('200 OK')
 
 
 
