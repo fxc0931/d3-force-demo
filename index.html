@@ -44,82 +44,15 @@
 
 <script>
 
-    $(document).ready(function(){
+    let nodes = []
+    let edges = []
+    let svg
+    let p1 = new Promise(initData)
+    p1.then(function () {
+        svg = d3.select('svg')
         drawGraph()
     })
 
-    // 准备数据
-    let nodesSource = [
-        {"id": "Nike"},
-        {"id": "USA"},
-        {"id": "Apple"},
-        {"id": "Samsung"},
-        {"id": "Adidas"},
-        {"id": "Adidas China"},
-        {"id": "McDonald"},
-        {"id": "KFC"},
-        {"id": "KFC China"},
-        {"id": "Jack Ma"},
-        {"id": "Alibaba"},
-        {"id": "Tencent"},
-        {"id": "JD.com"},
-        {"id": "Toyota"},
-        {"id": "Geely"},
-        {"id": "Tesla"}
-
-    ]
-
-    let edgesSource = [
-        {"source": "Nike", "target": "USA", "relation": 'acquired', 'year': '2011'},
-        {"source": "Apple", "target": "Samsung", "relation": 'sued','year': '2012'},
-        {"source": "Adidas", "target": "Nike", "relation": 'sued','year': '2012'},
-        {"source": "Adidas", "target": "Adidas China", "relation": 'decreased stake of','year': '2014'},
-        {"source": "McDonald", "target": "USA", "relation": 'increased stake of','year': '2014'},
-        {"source": "KFC", "target": "KFC China", "relation": 'decreased stake of','year': '2015'},
-        {"source": "Jack Ma", "target": "Alibaba", "relation": 'Is CEO of','year': '2015'},
-        {"source": "Tencent", "target": "JD.com", "relation": 'increased stake of','year': '2016'},
-        {"source": "Toyota", "target": "Tesla", "relation": 'cooperated with','year': '2016'},
-        {"source": "Geely", "target": "Tesla", "relation": 'acquired','year': '2017'},
-    ]
-    let nodes = [
-        {"id": "Nike"},
-        {"id": "USA"},
-        {"id": "Apple"},
-        {"id": "Samsung"},
-        {"id": "Adidas"},
-        {"id": "Adidas China"},
-        {"id": "McDonald"},
-        {"id": "KFC"},
-        {"id": "KFC China"},
-        {"id": "Jack Ma"},
-        {"id": "Alibaba"},
-        {"id": "Tencent"},
-        {"id": "JD.com"},
-        {"id": "Toyota"},
-        {"id": "Geely"},
-        {"id": "Tesla"},
-    ]
-
-    let edges = [
-        {"source": "Nike", "target": "USA", "relation": 'acquired', 'year': '2011'},
-        {"source": "Apple", "target": "Samsung", "relation": 'sued','year': '2012'},
-        {"source": "Adidas", "target": "Nike", "relation": 'sued','year': '2012'},
-        {"source": "Adidas", "target": "Adidas China", "relation": 'decreased stake of','year': '2014'},
-        {"source": "McDonald", "target": "USA", "relation": 'increased stake of','year': '2014'},
-        {"source": "Toyota", "target": "Tesla", "relation": 'cooperated with','year': '2016'},
-        {"source": "KFC", "target": "KFC China", "relation": 'decreased stake of','year': '2015'},
-        {"source": "Jack Ma", "target": "Alibaba", "relation": 'Is CEO of','year': '2015'},
-        {"source": "Tencent", "target": "JD.com", "relation": 'increased stake of','year': '2016'},
-        {"source": "Geely", "target": "Tesla", "relation": 'acquired','year': '2017'},
-    ]
-
-    let margin = {top: 60,  bottom: 60, left: 60, right: 60}
-    let svg = d3.select('svg')
-    let width = svg.attr('width')
-    let height = svg.attr('height')
-
-    let g = svg.append('g')
-        .attr('transform', 'translate('+ margin.top + ',' + margin.left +')')
     // With JQuery
      $('#ex1').slider({
          formatter: function (value) {
@@ -127,44 +60,29 @@
              return value
          }
     }).on('slideStop', function (e) {
-         let itemSource = {}
-         let itemTarget = []
-         let arr = []
+
          nodes = []
          edges = []
-         for (let i = 0; i < edgesSource.length; i++) {
-             if (e.value[0] <= edgesSource[i].year && e.value[1] >= edgesSource[i].year ) {
-                 if (typeof(edgesSource[i].source) === 'string') {
-                     itemSource = {
-                         id: edgesSource[i].source
+         let p1 = new Promise(initData)
+         p1.then(function () {
+             edges = edges.filter(item => item.year >= e.value[0] && item.year <= e.value[1])
+             nodes = nodes.filter(item => {
+                 for (let i = 0; i < edges.length; i++) {
+                     if (edges[i].source.id) {
+                         if (item.id === edges[i].source.id || item.id === edges[i].target.id) {
+                             return item
+                         }
+                     } else {
+                         if (item.id === edges[i].source || item.id === edges[i].target) {
+                             return item
+                         }
                      }
-                     itemTarget = {
-                         id: edgesSource[i].target
-                     }
-                 } else {
-                     itemSource = edgesSource[i].source
-                     itemTarget = edgesSource[i].target
-
                  }
-                 arr.push(itemSource)
-                 arr.push(itemTarget)
-                 edges.push(edgesSource[i])
-
-               }
-             }
-         for (let i = 0; i < arr.length; i++) {
-             for (let j = i+1; j < arr.length; j++) {
-                 if(arr[i].id === arr[j].id){
-                     ++i
-                 }
-             }
-             nodes.push(arr[i]);
-         }
-
-         svg.selectAll("svg > *").remove() // 移除svg内部节点
-         drawGraph()
+             })
+             svg.selectAll("svg > *").remove() // 移除svg内部节点
+             drawGraph()
+         })
      })
-
 
 
     function drawGraph () {
@@ -178,7 +96,8 @@
 
         // 设置color的颜色比例尺，显示不同的颜色
         let colorScale = d3.scaleOrdinal()
-            .domain(d3.range(nodes.length))
+            .domain(["Nike","USA","Apple", "Samsung", "Adidas", "Adidas China", "McDonald", "KFC", "KFC China",
+                "Jack Ma", "Alibaba", "Tencent", "JD.com", "Toyota", "Geely","Tesla"])
             .range(d3.schemeCategory10)
 
         // 新建一个力导向图
@@ -233,7 +152,7 @@
 
         //绘制节点
 
-        var gs = g.selectAll('.circleText')
+        let gs = g.selectAll('.circleText')
             .data(nodes)
             .enter()
             .append('g')
@@ -305,6 +224,49 @@
             d.fy = null
         }
     }
+
+    function initData(resolve) {
+
+
+        nodes = [
+            {"id": "Nike"},
+            {"id": "USA"},
+            {"id": "Apple"},
+            {"id": "Samsung"},
+            {"id": "Adidas"},
+            {"id": "Adidas China"},
+            {"id": "McDonald"},
+            {"id": "KFC"},
+            {"id": "KFC China"},
+            {"id": "Jack Ma"},
+            {"id": "Alibaba"},
+            {"id": "Tencent"},
+            {"id": "JD.com"},
+            {"id": "Toyota"},
+            {"id": "Geely"},
+            {"id": "Tesla"},
+        ]
+
+        edges = [
+            {"source": "Nike", "target": "USA", "relation": 'acquired', 'year': '2011'},
+            {"source": "Apple", "target": "Samsung", "relation": 'sued','year': '2012'},
+            {"source": "Adidas", "target": "Nike", "relation": 'sued','year': '2012'},
+            {"source": "Adidas", "target": "Adidas China", "relation": 'decreased stake of','year': '2014'},
+            {"source": "McDonald", "target": "USA", "relation": 'increased stake of','year': '2014'},
+            {"source": "Toyota", "target": "Tesla", "relation": 'cooperated with','year': '2016'},
+            {"source": "KFC", "target": "KFC China", "relation": 'decreased stake of','year': '2015'},
+            {"source": "Jack Ma", "target": "Alibaba", "relation": 'Is CEO of','year': '2015'},
+            {"source": "Tencent", "target": "JD.com", "relation": 'increased stake of','year': '2016'},
+            {"source": "Geely", "target": "Tesla", "relation": 'acquired','year': '2017'},
+        ]
+
+        resolve('200 OK');
+
+
+
+    }
+
+
 
 
 
